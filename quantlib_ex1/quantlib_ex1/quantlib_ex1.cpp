@@ -80,8 +80,8 @@ int main(int, char* []) {
         boost::timer timer;
         std::cout << std::endl;
         std::ifstream       file("data.csv");
-		    CSVRow data_row;
-		    file >> data_row;
+        CSVRow data_row;
+        file >> data_row;
         const size_t num_data = data_row.size()/2;
 
 
@@ -113,11 +113,11 @@ int main(int, char* []) {
 
         for(size_t i = 0 ; i < num_data; i++) {
           stFRAMarketData element_data;
-		    	convertFromString(element_data.iMonthToStart, data_row[i]);
+          convertFromString(element_data.iMonthToStart, data_row[i]);
           element_data.iTermDuration = 3; //3 month term
           convertFromString(element_data.rateFraQuote, data_row[i + num_data]);
-			    vecMarketData.push_back(element_data);
-		    }
+          vecMarketData.push_back(element_data);
+        }
 
 
 
