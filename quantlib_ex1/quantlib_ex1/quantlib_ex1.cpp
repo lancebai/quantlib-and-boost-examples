@@ -120,15 +120,6 @@ int main(int, char* []) {
 		    }
 
 
-#if 0
-        Rate threeMonthFraQuote[10];
-
-        threeMonthFraQuote[1]=0.030;
-        threeMonthFraQuote[2]=0.031;
-        threeMonthFraQuote[3]=0.032;
-        threeMonthFraQuote[6]=0.033;
-        threeMonthFraQuote[9]=0.034;
-#endif
 
         /********************
          ***    QUOTES    ***
@@ -146,18 +137,6 @@ int main(int, char* []) {
           boost::shared_ptr<SimpleQuote> fraRate(new SimpleQuote(vecMarketData[i].rateFraQuote));
           vecFRAQuote.push_back(fraRate);
         }
-#if 0
-        boost::shared_ptr<SimpleQuote> fra1x4Rate(
-                                      new SimpleQuote(threeMonthFraQuote[1]));
-        boost::shared_ptr<SimpleQuote> fra2x5Rate(
-                                      new SimpleQuote(threeMonthFraQuote[2]));
-        boost::shared_ptr<SimpleQuote> fra3x6Rate(
-                                      new SimpleQuote(threeMonthFraQuote[3]));
-        boost::shared_ptr<SimpleQuote> fra6x9Rate(
-                                      new SimpleQuote(threeMonthFraQuote[6]));
-        boost::shared_ptr<SimpleQuote> fra9x12Rate(
-                                      new SimpleQuote(threeMonthFraQuote[9]));
-#endif
         std::vector <RelinkableHandle<Quote> > vecQuoteHandle;
 
         for(size_t i = 0 ; i < num_data; i++) { 
@@ -166,13 +145,6 @@ int main(int, char* []) {
           vecQuoteHandle.push_back(hQuote);
         }
 
-#if 0        
-        RelinkableHandle<Quote> h1x4;  h1x4.linkTo(fra1x4Rate);
-        RelinkableHandle<Quote> h2x5;  h2x5.linkTo(fra2x5Rate);
-        RelinkableHandle<Quote> h3x6;  h3x6.linkTo(fra3x6Rate);
-        RelinkableHandle<Quote> h6x9;  h6x9.linkTo(fra6x9Rate);
-        RelinkableHandle<Quote> h9x12; h9x12.linkTo(fra9x12Rate);
-#endif
         /*********************
          ***  RATE HELPERS ***
          *********************/
@@ -196,32 +168,6 @@ int main(int, char* []) {
 
           vecRateHelper.push_back(fra_helper);
         }
-#if 0
-        boost::shared_ptr<RateHelper> fra1x4(
-                           new FraRateHelper(h1x4, 1, 4,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
-
-        boost::shared_ptr<RateHelper> fra2x5(
-                           new FraRateHelper(h2x5, 2, 5,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
-
-        boost::shared_ptr<RateHelper> fra3x6(
-                           new FraRateHelper(h3x6, 3, 6,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
-
-        boost::shared_ptr<RateHelper> fra6x9(
-                           new FraRateHelper(h6x9, 6, 9,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
-
-        boost::shared_ptr<RateHelper> fra9x12(
-                           new FraRateHelper(h9x12, 9, 12,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
-#endif
 
         /*********************
          **  CURVE BUILDING **
@@ -235,22 +181,6 @@ int main(int, char* []) {
         double tolerance = 1.0e-15;
 
         // A FRA curve
-#if 0
-        std::vector<boost::shared_ptr<RateHelper> > fraInstruments;
-
-        fraInstruments.push_back(fra1x4);
-        fraInstruments.push_back(fra2x5);
-        fraInstruments.push_back(fra3x6);
-        fraInstruments.push_back(fra6x9);
-        fraInstruments.push_back(fra9x12);
-
-        boost::shared_ptr<YieldTermStructure> fraTermStructure(
-                     new PiecewiseYieldCurve<Discount,LogLinear>(
-                                         settlementDate, fraInstruments,
-                                         termStructureDayCounter,
-                                         tolerance));
-
-#endif
         boost::shared_ptr<YieldTermStructure> fraTermStructure(
                      new PiecewiseYieldCurve<Discount,LogLinear>(
                                          settlementDate, vecRateHelper,
@@ -352,20 +282,6 @@ int main(int, char* []) {
           vecMarketData[i].rateFraQuote += BpsShift;
           vecFRAQuote[i]->setValue(vecMarketData[i].rateFraQuote);
         }
-#if 0
-        threeMonthFraQuote[1]=0.030+BpsShift;
-        threeMonthFraQuote[2]=0.031+BpsShift;
-        threeMonthFraQuote[3]=0.032+BpsShift;
-        threeMonthFraQuote[6]=0.033+BpsShift;
-        threeMonthFraQuote[9]=0.034+BpsShift;
-
-
-        fra1x4Rate->setValue(threeMonthFraQuote[1]);
-        fra2x5Rate->setValue(threeMonthFraQuote[2]);
-        fra3x6Rate->setValue(threeMonthFraQuote[3]);
-        fra6x9Rate->setValue(threeMonthFraQuote[6]);
-        fra9x12Rate->setValue(threeMonthFraQuote[9]);
-#endif
 
         for (i=0; i<num_data; i++) {
 
