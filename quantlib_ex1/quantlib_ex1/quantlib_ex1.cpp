@@ -1,4 +1,8 @@
+/* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+
 /*!
+ Copyright (C) 2006 Allen Kuo
+
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
 
@@ -345,7 +349,7 @@ int main(int, char* []) {
         const Real BpsShift = 0.01;
 
         for(size_t i = 0; i< num_data; i++ ) {
-          vecMarketData[i].rateFraQuote + BpsShift;
+          vecMarketData[i].rateFraQuote += BpsShift;
           vecFRAQuote[i]->setValue(vecMarketData[i].rateFraQuote);
         }
 #if 0
